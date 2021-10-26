@@ -1,0 +1,27 @@
+
+syntax = "proto3";
+import "google/protobuf/any.proto";
+import "data.proto";
+
+package RTC.ProtoGrpc.SessionServer;
+message O2S_CheckSession
+{
+    string accountId = 1;
+    string token = 2;
+}
+
+
+message S2O_CheckSession
+{
+    bool available = 1;
+    string message = 2;
+}
+
+
+service SessionService
+{
+    rpc CheckSession (O2S_CheckSession) returns (S2O_CheckSession);
+}
+
+
+

@@ -1,0 +1,1 @@
+dotnet SignalServer.dll --port ${PORT} --ip ${ADDRESS} --zk ${ZKSERVERS} --zkroot ${ZKROOT} --zksso ${ZKSSO}

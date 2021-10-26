@@ -1,0 +1,10 @@
+
+{
+    "name": "com.xsoft.rtc",
+    "displayName": "RTC",
+    "description": "",
+    "dependencies": {},
+    "unity": "2020.3",
+    "license": "MIT",
+    "version": "1.0.0"
+}

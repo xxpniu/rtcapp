@@ -1,0 +1,1 @@
+dotnet SessionServer.dll --port ${PORT} --ip ${ADDRESS} --dbstr ${DBSTR} --dbname ${DBNAME} --zk ${ZKSERVERS} --zkroot ${ZKROOT} 

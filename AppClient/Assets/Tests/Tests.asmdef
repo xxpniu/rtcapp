@@ -1,0 +1,32 @@
+{
+    "name": "Tests",
+    "rootNamespace": "",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Tal.Grpc.Runtime",
+        "RTC.Runtime",
+        "UniTask"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "RTC.XNet.dll",
+        "Google.Protobuf.dll",
+        "Grpc.Core.Api.dll",
+        "RTC.ProtoGrpc.dll",
+        "Grpc.Core.dll",
+        "System.Buffers.dll",
+        "System.Memory.dll",
+        "System.Runtime.CompilerServices.Unsafe.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+
+package RTC.ProtoGrpc.LoginServer;
+
+import "data.proto";
+
+
+
+//login
+message C2L_Login
+{
+    string userName = 1;
+    string password = 2;
+}
+
+message L2C_Login
+{
+    RTC.ProtoGrpc.Data.TokenSession token = 1;
+}
+
+message C2L_RegisterAccount
+{
+    string userName = 1;
+    string password =2;
+    string email = 3;
+    string nickname = 4;
+}
+
+message L2C_RegisterAccount
+{
+    RTC.ProtoGrpc.Data.TokenSession token = 1;
+}
+
+
+service LoginServerService
+{
+    rpc Login (C2L_Login) returns (L2C_Login);
+    rpc Register (C2L_RegisterAccount) returns (L2C_RegisterAccount);
+}

@@ -1,0 +1,49 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    hostname: mongolocal
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: xsoft123
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: xsoft123
+      ME_CONFIG_MONGODB_URL: mongodb://root:xsoft123@mongolocal:27017/
+  zookeeper:
+    image: zookeeper
+    restart: always
+    hostname: zoo1
+    ports:
+      - 2181:2181
+  zkui:
+    image: juris/zkui
+    #dockerdocker run --rm -p 9090:9090 -e ZK_SERVER=zookeeper:2181 juris/zkui
+    restart: always
+    ports: 
+      - 9090:9090
+    environment:
+      ZK_SERVER: zoo1:2181    
+    depends_on:
+      - zookeeper
+
+  #docker run -d -p 3478:3478  --network=host  -p 3478:3478/udp -p 49160-49200:49160-49200/udp   coturn/coturn -n --log-file=stdout   --min-port=49160 --max-port=49200
+  coturn:
+    image: coturn/coturn 
+    restart: always 
+    hostname: coturn
+    ports: 
+      - 3478:3478/udp
+      - 49160-49200:49160-49200/udp
+      - 3478:3478  
+

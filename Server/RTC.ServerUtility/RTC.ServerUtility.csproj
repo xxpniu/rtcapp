@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <LangVersion>9</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Google.Protobuf" Version="3.15.2" />
+      <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+      <PackageReference Include="mongocsharpdriver" Version="2.13.1" />
+      <PackageReference Include="ZooKeeperNetEx" Version="3.4.12.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\RTC.XNet\RTC.XNet.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,9 @@
+{
+    "name": "com.xsoft.grpc",
+    "displayName": "Grpc",
+    "description": "Grpc",
+    "version": "1.0.0",
+    "unity": "2020.3",
+    "license": "MIT",
+    "keywords": ["grpc","rpc","network"]
+  }

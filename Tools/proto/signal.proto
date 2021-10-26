@@ -1,0 +1,69 @@
+
+syntax = "proto3";
+import "google/protobuf/any.proto";
+import "data.proto";
+
+
+package RTC.ProtoGrpc.SignalServer;
+
+
+
+message RouteMessage
+{
+    string fromId = 1;
+    string toId = 2;
+    google.protobuf.Any msg = 3; 
+}
+
+message C2S_Connect
+{
+    RTC.ProtoGrpc.Data.TokenSession session = 1;
+}
+
+
+message CreateOffer
+{
+    string receiveConnectionId =1; 
+    string description = 2;
+}
+
+
+message AnswerOffer
+{
+    string receiveConnectionId =1; 
+    string description =2;
+}
+
+message IceCandidate
+{
+    string iceCandidate = 1;
+}
+
+message PeerOnline
+{
+    string sessionId=1;
+}
+
+message PeerOffLine
+{
+    string sessionId=1;
+}
+
+
+message C2S_QueryPlayerList
+{
+    string connectionId = 1;
+}
+
+message S2C_QueryPlayerList
+{
+    repeated string playies = 1;
+}
+
+
+service SignalServerService 
+{
+    rpc Connect (C2S_Connect) returns (stream RouteMessage);
+    rpc Route (RouteMessage) returns ( RTC.ProtoGrpc.Data.Void);
+    rpc QueryPlayerList (C2S_QueryPlayerList) returns (S2C_QueryPlayerList);
+}

@@ -1,0 +1,11 @@
+<linker>
+    <assembly fullname="Google.Protobuf" preserve="all"/>
+    <assembly fullname="RTC.ProtoGrpc" preserve="all"/>
+    <assembly fullname="RTC.XNet" preserve="all"/>
+    <assembly fullname="Vuforia.UnityExtensions">
+        <namespace fullname="Vuforia" preserve="all"/>
+    </assembly>
+    <assembly fullname="System.Core">
+        <type fullname="System.Linq.Expressions.Interpreter.LightLambda" preserve="all" />
+    </assembly>
+</linker>

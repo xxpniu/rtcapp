@@ -1,0 +1,38 @@
+version: '3.1'
+services:
+  login:
+    image: loginserver
+    hostname: login 
+    #restart: always
+    ports:
+      - "2000:2000" 
+    environment:
+      - DBSTR=${MONGO}
+      - DBNAME=rtc_account
+      - PORT=2000
+      - ADDRESS=${HOSTIP}
+      - ZKSERVERS=${ZKSERVER_ADDR}
+  signal:
+    image: signalserver
+    hostname: signal
+    restart: always
+    ports:
+      - "3400:3400"
+    environment:
+      - PORT=3400
+      - ADDRESS=${HOSTIP}
+      - ZKSERVERS=${ZKSERVER_ADDR}
+    depends_on:
+      - login
+  session:
+    image: sessionserver
+    hostname: session
+    restart: always
+    ports:
+      - "1200:1200"
+    environment:
+      - DBSTR=${MONGO}
+      - DBNAME=rtc_account
+      - PORT=1200
+      - ADDRESS=${HOSTIP}
+      - ZKSERVERS=${ZKSERVER_ADDR}
