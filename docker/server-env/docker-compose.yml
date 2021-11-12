@@ -41,9 +41,30 @@ services:
   coturn:
     image: coturn/coturn 
     restart: always 
-    hostname: coturn
+    #hostname: coturn
     ports: 
-      - 3478:3478/udp
+      - 3478-3479:3478-3479/udp
       - 49160-49200:49160-49200/udp
-      - 3478:3478  
+      - 3478-3479:3478-3479    
+    command:
+      #- --log-file=stdout
+      - --min-port=49160
+      - --max-port=49200
+      # --no-auth
+      - --fingerprint
+      - --user=xsoft:xsoft123456
+      #- --relay-threads=1
+      - --user-quota=100
+      - --total-quota=100
+      - --max-bps=1024000
+      - --bps-capacity=0
+      - --listening-port=3478
+      - --external-ip='$$(detect-external-ip)'
+      #- --mongo-userdb=mongodb://root:xsoft123@mongolocal:27017/
+      - --lt-cred-mech
+      - --realm=xsoft
+      - --verbose
+      - --no-cli
+    network_mode: host 
+    
 

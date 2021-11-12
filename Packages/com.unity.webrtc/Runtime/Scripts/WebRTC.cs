@@ -268,6 +268,7 @@ namespace Unity.WebRTC
 
         internal RTCConfiguration(ref RTCConfigurationInternal v)
         {
+            
             iceServers = v.iceServers;
             iceTransportPolicy = v.iceTransportPolicy.AsEnum<RTCIceTransportPolicy>();
             bundlePolicy = v.bundlePolicy.AsEnum<RTCBundlePolicy>();

@@ -1,12 +1,15 @@
+using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Threading.Tasks;
-using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using RTC.ProtoGrpc.Data;
 using RTC.ProtoGrpc.SessionServer;
 using RTC.ProtoGrpc.SignalServer;
 using RTC.ServerUtility;
 using RTC.XNet;
+using SignalServer.Utility;
+using Void = RTC.ProtoGrpc.Data.Void;
 
 namespace SignalServer.GrpcHandler
 {
@@ -19,101 +22,141 @@ namespace SignalServer.GrpcHandler
 
         private readonly WatcherServer<string, ServerDefine> _watcher;
         
-        private readonly ConcurrentDictionary<string, AsyncStreamBuffer<RouteMessage>> _connections =
+        private readonly ConcurrentDictionary<string, RoomClient> _connections =
             new();
 
         public override async Task<Void> Route(RouteMessage request, ServerCallContext context)
         {
-            if (_connections.TryGetValue(request.ToId, out var t))
+            if (!RouteMessageToOther(request))
             {
-                t.Push(request);
+                Debugger.LogWaring($"{request} send error");
             }
+
             return await Task.FromResult(new Void());
         }
-
-        public override async Task Connect(C2S_Connect request, IServerStreamWriter<RouteMessage> responseStream, ServerCallContext context)
+        
+        private bool  RouteMessageToOther(RouteMessage message)
         {
-            var accountId = request.Session.AccountId;
-            var sso = _watcher.AnyOne();
             
-            var channel = new LogChannel(sso.Address, sso.Port);
+            if (!_connections.TryGetValue(message.ToId, out var to) ||
+                !_connections.TryGetValue(message.FromId, out var from))
+                return false;
             
-            var client = await channel.CreateClientAsync<SessionService.SessionServiceClient>();
-            var ssoCheck = await client.CheckSessionAsync(new O2S_CheckSession
+            if (string.Equals(to.RoomId, @from.RoomId))
             {
-                Token = request.Session.Token,
-                AccountId = request.Session.AccountId
-            }, cancellationToken: context.CancellationToken);
-
-            await channel.ShutdownAsync();
-
-            if (!ssoCheck.Available)
-            {
-                throw new AuthException("session checked error!");
+                to.Push(message);
+                return true;
             }
 
+            Debugger.LogWaring($"from {@from.RoomId} to {to.RoomId} not equals");
 
-            if (_connections.TryGetValue(accountId, out var t))
-            {
-                t.Close();
-                if(!_connections.TryRemove(accountId, out _)) return;
-            }
+            return false;
+        }
 
-            var oneLine = new PeerOnline
-            {
-                SessionId =accountId
-            };
-            
-            var buffer = new AsyncStreamBuffer<RouteMessage>();
-            foreach (var player in _connections)
-            {
-                var rout = new RouteMessage
-                {
-                    FromId = accountId,
-                    ToId = player.Key,
-                    Msg = Any.Pack(oneLine)
-                };
-                player.Value.Push(rout);
-            }
-
-            _connections.TryAdd(accountId, buffer);
-            
+        public override async Task Connect(C2S_Connect request, IServerStreamWriter<RouteMessage> responseStream,
+            ServerCallContext context)
+        {
             try
             {
-                await foreach (var message in buffer.TryPullAsync(context.CancellationToken))
-                {
-                    await responseStream.WriteAsync(message);
-                }
-            }
-            catch
-            {
-                //ignore
-            }
+                var accountId = request.Session.AccountId;
 
-            _connections.TryRemove(accountId, out _);
-            var offLine = new PeerOffLine()
-            {
-                SessionId = accountId
-            };
+                var sso = _watcher.AnyOne();
 
-            foreach (var player in _connections)
-            {
-                var rout = new RouteMessage
+                var re = new O2S_CheckSession
                 {
-                    FromId = accountId,
-                    ToId = player.Key,
-                    Msg = Any.Pack(offLine)
+                    Token = request.Session.Token,
+                    AccountId = request.Session.AccountId
                 };
-                player.Value.Push(rout);
+
+                var ssoCheck = await LogChannel
+                    .CreateOneRequest<SessionService.SessionServiceClient>(sso.ToEndPoint())
+                    .SendRequestAsync(async c => await c.CheckSessionAsync(re));
+
+                if (!ssoCheck.Available) throw new AuthException("session checked error!");
+                
+
+                Debugger.LogIfLevel(LoggerType.Log,()=>$"{accountId} joined");
+
+                if (_connections.TryGetValue(accountId, out var t))
+                {
+                    t.Dispose();
+                    if (!_connections.TryRemove(accountId, out _)) return;
+                }
+                
+                
+
+                var online = new PeerOnline
+                {
+                    SessionId = accountId
+                };
+
+                var buffer = new RoomClient(request.RoomId, new AsyncStreamBuffer<RouteMessage>());
+
+                foreach (var (key, value) in _connections)
+                {
+                    RouteMessageToOther(online.ToRoute(accountId, key));
+                }
+
+                _connections.TryAdd(accountId, buffer);
+
+                try
+                {
+                    await foreach (var message in buffer.Buffer.TryPullAsync(context.CancellationToken))
+                    {
+                        await responseStream.WriteAsync(message);
+                    }
+                }
+                catch
+                {
+
+                    //ignore
+                }
+
+
+
+                buffer.Dispose();
+
+
+                //remove if close 
+                if (_connections.TryGetValue(accountId, out var b))
+                {
+                    if (!b.Buffer.IsWorking)
+                    {
+                        _connections.TryRemove(accountId, out _);
+
+                        var offLine = new PeerOffLine()
+                        {
+                            SessionId = accountId
+                        };
+
+                        foreach (var (key, _) in _connections)
+                        {
+                            RouteMessageToOther(offLine.ToRoute(accountId, key));
+                        }
+                    }
+                }
+                
+                Debugger.LogIfLevel(LoggerType.Log,()=>$"{accountId} exited");
+            }
+            catch(Exception exception)
+            {
+                Debugger.LogError(exception);
             }
         }
 
         public override async Task<S2C_QueryPlayerList> QueryPlayerList(C2S_QueryPlayerList request,
             ServerCallContext context)
         {
+
+            var clients = _connections
+                .Where(t => t.Value.RoomId == request.RoomId 
+                            && t.Value.Buffer.IsWorking)
+                .Select(t => t.Key)
+                .ToList();
+            
             var response = new S2C_QueryPlayerList
             {
-                Playies = {_connections.Keys}
+                Playies = {  clients }
             };
 
             return await Task.FromResult(response);

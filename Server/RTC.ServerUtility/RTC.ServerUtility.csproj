@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Grpc\RTC.ProtoGrpc\RTC.ProtoGrpc.csproj" />
       <ProjectReference Include="..\RTC.XNet\RTC.XNet.csproj" />
     </ItemGroup>
 

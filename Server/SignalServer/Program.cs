@@ -20,16 +20,16 @@ namespace SignalServer
             Parser.Default.ParseArguments<SignalOption>(args)
                 .WithParsed(o => { option = o; });
 
-            var log = new  DefaultLogger();
-   
-            Debugger.Logger = log ;
-            
+            var log = new DefaultLogger();
+
+            Debugger.Logger = log.WriteLog;
+
             GrpcEnvironment.SetLogger(log);
-            Debugger.LogIfLevel(LoggerType.Debug, ()=> $"{args.JoinToString("\n")}");
-            
+            Debugger.LogIfLevel(LoggerType.Debug, () => $"{args.JoinToString("\n")}");
+
             var server = new LogServer()
             {
-                Ports = {new ServerPort("0.0.0.0", option.ListenPort, ServerCredentials.Insecure)}
+                Ports = { new ServerPort("0.0.0.0", option.ListenPort, ServerCredentials.Insecure) }
             };
 
 
@@ -47,7 +47,7 @@ namespace SignalServer
             var watcher = new WatcherServer<string, ServerDefine>(zk.ZooKeeper, option.ZkSSOServer,
                 define => $"{define.Address}:{define.Port}");
             var service = new GrpcHandler.SignalService(watcher);
-            
+
             server.BindServices(SignalServerService.BindService(service));
             //watcher.GetEnumerator()
 
@@ -61,6 +61,7 @@ namespace SignalServer
             {
                 await zk.CloseAsync();
                 await server.ShutdownAsync();
+                watcher.Dispose();
             }).RunAsync();
         }
     }

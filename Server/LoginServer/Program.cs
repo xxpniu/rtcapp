@@ -19,7 +19,7 @@ namespace LoginServer
             var option = new LoginOption();
             var log = new  DefaultLogger();
    
-            Debugger.Logger = log ;
+            Debugger.Logger = log.WriteLog ;
             
             GrpcEnvironment.SetLogger(log);
 

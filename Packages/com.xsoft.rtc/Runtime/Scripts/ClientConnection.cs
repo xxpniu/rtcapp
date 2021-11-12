@@ -20,7 +20,7 @@ namespace XRTC
 {
     public class RTCClientConnection: IDisposable
     {
-        private CancellationTokenSource _source = new CancellationTokenSource();
+        private readonly CancellationTokenSource _source = new CancellationTokenSource();
        
         private SignalChannel Signal { get; set; }
         private Dictionary<string, RTCClient> Connections { get; } =
@@ -31,7 +31,10 @@ namespace XRTC
 
         public SubscribeTools<string> OnOffline { get; }
             = new SubscribeTools<string>();
-        
+
+        public SubscribeTools<(string id, Any data)> OnDataChannelReceived { get; }
+            = new SubscribeTools<(string id, Any data)>();
+
 
         private WebCamTexture webCamTexture;
         private Vector2Int Size { get; }
@@ -41,7 +44,11 @@ namespace XRTC
         private async Task<AudioClip> CreateMicrophoneAsync(CancellationToken token = default)
         {
             var m_deviceName = Microphone.devices.FirstOrDefault();
-            var m_clipInput = Microphone.Start(m_deviceName, true, 1, 48000);
+            Microphone.GetDeviceCaps(m_deviceName,out var min, out var max);
+            var freq = 48000;// Mathf.Clamp(48000, min, max);
+            
+            var m_clipInput = Microphone.Start(m_deviceName, true, 1, freq);
+            
             // set the latency to “0” samples before the audio starts to play.
             Debug.Log($" microphone {m_deviceName}");
             await UniTask.WaitUntil(() => Microphone.GetPosition(m_deviceName) > 0, cancellationToken:token);
@@ -96,22 +103,33 @@ namespace XRTC
                      ky.Value.RemoveVideoTrack();
                 }
             }
+            
+            await Task.CompletedTask;
         }
 
-        public RTCClientConnection(TokenSession session, string signalAddress, string stunAddress,
+        ~RTCClientConnection()
+        {
+            Dispose();
+        }
+
+        public RTCClientConnection(TokenSession session, string roomId,
+            string signalAddress, RTCIceServer[] iceServers,
             Vector2Int? size = default)
         {
             if (size.HasValue) Size = size.Value;
+            
             config = new RTCConfiguration
             {
-                iceServers = new[] {new RTCIceServer() {urls = new[] {stunAddress}}}
+                iceServers = iceServers,
+                iceTransportPolicy =  RTCIceTransportPolicy.All
             };
-            Init(session,signalAddress);
+            //config.iceServers
+            Init(session,signalAddress, roomId);
         }
 
-        private void Init(TokenSession session, string signalAddress)
+        private void Init(TokenSession session, string signalAddress,string roomId)
         {
-            Signal = new SignalChannel(signalAddress, session);
+            Signal = new SignalChannel(signalAddress, session,roomId);
             Signal.OnPeerOnline.Subscribe((des =>
             {
                 if (!Connections.TryGetValue(des, out var peerConnection)) return false;
@@ -144,10 +162,9 @@ namespace XRTC
                 return false;
             });
             
-            Signal.OnDisconnect.Subscribe(des =>
+            Signal.OnDisconnect.SubscribeForever(des =>
             {
                 OnOffline.Invoke(des);
-                return false;
             });
         }
 
@@ -181,40 +198,55 @@ namespace XRTC
 
             }
         }
-        
+
         private RTCClient CreateClient(string remoteId)
         {
             if (Connections.TryGetValue(remoteId, out var client))
             {
-                client?.Dispose();
-                Connections.Remove(remoteId);
+                return client;
+                //client?.Dispose();
+                //Connections.Remove(remoteId);
             }
+
+            Debugger.DebugLog(JsonUtility.ToJson(config));
 
             var peer = new RTCPeerConnection(ref config)
             {
-                
+
                 OnIceCandidate = ice =>
                 {
-                    if(string.IsNullOrEmpty(ice.Candidate)) return;
-                    _ = Signal.Route(remoteId, new IceCandidate {IceCandidate_ = JsonUtility.ToJson(ice)});
+                    if (string.IsNullOrEmpty(ice.Candidate)) return;
+                    var option = new IceCandidate
+                    {
+                        Candidate = ice.Candidate, 
+                        SdpMLineIndex = ice.SdpMLineIndex??-1, 
+                        SdpMid = ice.SdpMid
+                    };
+                    Debugger.LogIfLevel(LoggerType.Debug, () => $"Candidate: {ice.Candidate}");
+                    _ = Signal.Route(remoteId,  option);
                 },
-               
-                OnNegotiationNeeded = () => { Debugger.LogIfLevel(LoggerType.Debug, () => $"OnNegotiationNeeded()"); },
+
+                OnNegotiationNeeded = () =>
+                {
+                    Debugger.LogIfLevel(LoggerType.Debug, () => $"OnNegotiationNeeded()");
+                    _ = InitFromCreateOfferAsync(remoteId);
+                },
                 OnDataChannel = (channel) =>
                 {
                     // _dataChannel = channel;
                     channel.OnMessage = (msg) =>
                     {
-                        Debug.LogError("PollClientLogBytesLength: " + msg.Length);
+                        //Debug.LogError("PollClientLogBytesLength: " + msg.Length);
                         var any = Any.Parser.ParseFrom(msg);
-                        Debugger.Log(any);
+                        OnDataChannelReceived.Invoke((remoteId,any));
+                        //Debugger.Log(any);
                     };
                     //remoteDataChannel = channel;
                     //remoteDataChannel.OnMessage = onDataChannelMessage;
                 }
             };
-            
-            
+
+
             videoTrack = new VideoStreamTrack(webCamTexture);
             audioTrack = new AudioStreamTrack(MicrophoneClip);
 
@@ -225,7 +257,7 @@ namespace XRTC
                 VideoTrack = peer.AddTrack(videoTrack),
                 AudioTrack = peer.AddTrack(audioTrack)
             };
-            
+
             Connections[remoteId] = client;
             peer.OnConnectionStateChange = state =>
             {
@@ -237,9 +269,15 @@ namespace XRTC
                         {
                             _ = InitFromCreateOfferAsync(remoteId);
                         }
+
                         break;
-                    case  RTCPeerConnectionState.Failed:
-                        OnOffline.Invoke("failure");
+                    case RTCPeerConnectionState.Failed:
+                    {
+                        Connections.Remove(remoteId);
+                        client?.Dispose();
+                        OnPeerChanged.Invoke((false, remoteId));
+                    }
+                        //OnOffline.Invoke("failure");
                         break;
                 }
             };
@@ -249,7 +287,8 @@ namespace XRTC
                 Debugger.LogIfLevel(LoggerType.Debug, () => $"OnIceConnectionChange State:{state.ToString()}");
                 switch (state)
                 {
-                    case   RTCIceConnectionState.Closed:
+                    case RTCIceConnectionState.Closed:
+                    case RTCIceConnectionState.Failed:
                         break;
                 }
             };
@@ -261,14 +300,11 @@ namespace XRTC
                 {
                     case AudioStreamTrack audioStreamTrack:
                         //var outputAudioSource = receiveObjectList[audioIndex];
-                        audioStreamTrack.OnAudioReceived += clip =>
-                        {
-                            rtcClient.SetAudioClip(clip);
-                        };
+                        audioStreamTrack.OnAudioReceived += clip => { rtcClient.SetAudioClip(clip); };
                         break;
                     case VideoStreamTrack video:
                     {
-                        if(video.IsDecoderInitialized) return;
+                        if (video.IsDecoderInitialized) return;
                         var texture = video.InitializeReceiver(Size.x, Size.y);
                         rtcClient.SetTexture(texture);
 
@@ -315,10 +351,16 @@ namespace XRTC
                 var sOp = client.PeerConnection.SetLocalDescription();
                 await sOp;
                 if (sOp.IsError) throw new Exception($"op:{sOp.Error.message}");
+                var localDes = client.PeerConnection.LocalDescription;
+                var ldes = new SessionDescriptionData()
+                {
+                    Sdp = localDes.sdp,
+                    SdpType = (int)localDes.type
+                };
                 await Signal.Route(remoteId, new AnswerOffer
                 {
                     ReceiveConnectionId = remoteId,
-                    Description = JsonUtility.ToJson(client.PeerConnection.LocalDescription)
+                    Description = ldes
                 });
                 OnPeerChanged.Invoke((true,remoteId));
             }
@@ -350,10 +392,18 @@ namespace XRTC
                     return true;
                 });
 
+
+                var localDes = client.PeerConnection.LocalDescription;
+                var des = new SessionDescriptionData()
+                {
+                     Sdp = localDes.sdp,
+                     SdpType = (int)localDes.type
+                };
+
                 await Signal.Route(remoteId, new CreateOffer
                 {
                     ReceiveConnectionId = remoteId,
-                    Description = JsonUtility.ToJson(client.PeerConnection.LocalDescription)
+                    Description =  des
                 });
 
                 await UniTask.WaitUntil(() => !waitingAnswer, cancellationToken: token);
@@ -380,6 +430,8 @@ namespace XRTC
                 kv.Value.Dispose();
             }
             _source.Cancel();
+            
+            GC.SuppressFinalize(this);
         }
     }
 

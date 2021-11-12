@@ -27,34 +27,40 @@ namespace RTC.ProtoGrpc.SignalServer {
             "CgxzaWduYWwucHJvdG8SGlJUQy5Qcm90b0dycGMuU2lnbmFsU2VydmVyGhln",
             "b29nbGUvcHJvdG9idWYvYW55LnByb3RvGgpkYXRhLnByb3RvIk8KDFJvdXRl",
             "TWVzc2FnZRIOCgZmcm9tSWQYASABKAkSDAoEdG9JZBgCIAEoCRIhCgNtc2cY",
-            "AyABKAsyFC5nb29nbGUucHJvdG9idWYuQW55IkAKC0MyU19Db25uZWN0EjEK",
+            "AyABKAsyFC5nb29nbGUucHJvdG9idWYuQW55IlAKC0MyU19Db25uZWN0EjEK",
             "B3Nlc3Npb24YASABKAsyIC5SVEMuUHJvdG9HcnBjLkRhdGEuVG9rZW5TZXNz",
-            "aW9uIj8KC0NyZWF0ZU9mZmVyEhsKE3JlY2VpdmVDb25uZWN0aW9uSWQYASAB",
-            "KAkSEwoLZGVzY3JpcHRpb24YAiABKAkiPwoLQW5zd2VyT2ZmZXISGwoTcmVj",
-            "ZWl2ZUNvbm5lY3Rpb25JZBgBIAEoCRITCgtkZXNjcmlwdGlvbhgCIAEoCSIk",
-            "CgxJY2VDYW5kaWRhdGUSFAoMaWNlQ2FuZGlkYXRlGAEgASgJIh8KClBlZXJP",
-            "bmxpbmUSEQoJc2Vzc2lvbklkGAEgASgJIiAKC1BlZXJPZmZMaW5lEhEKCXNl",
-            "c3Npb25JZBgBIAEoCSIrChNDMlNfUXVlcnlQbGF5ZXJMaXN0EhQKDGNvbm5l",
-            "Y3Rpb25JZBgBIAEoCSImChNTMkNfUXVlcnlQbGF5ZXJMaXN0Eg8KB3BsYXlp",
-            "ZXMYASADKAkytwIKE1NpZ25hbFNlcnZlclNlcnZpY2USXgoHQ29ubmVjdBIn",
-            "LlJUQy5Qcm90b0dycGMuU2lnbmFsU2VydmVyLkMyU19Db25uZWN0GiguUlRD",
-            "LlByb3RvR3JwYy5TaWduYWxTZXJ2ZXIuUm91dGVNZXNzYWdlMAESSwoFUm91",
-            "dGUSKC5SVEMuUHJvdG9HcnBjLlNpZ25hbFNlcnZlci5Sb3V0ZU1lc3NhZ2Ua",
-            "GC5SVEMuUHJvdG9HcnBjLkRhdGEuVm9pZBJzCg9RdWVyeVBsYXllckxpc3QS",
-            "Ly5SVEMuUHJvdG9HcnBjLlNpZ25hbFNlcnZlci5DMlNfUXVlcnlQbGF5ZXJM",
-            "aXN0Gi8uUlRDLlByb3RvR3JwYy5TaWduYWxTZXJ2ZXIuUzJDX1F1ZXJ5UGxh",
-            "eWVyTGlzdGIGcHJvdG8z"));
+            "aW9uEg4KBnJvb21JZBgCIAEoCSI2ChZTZXNzaW9uRGVzY3JpcHRpb25EYXRh",
+            "EgsKA3NkcBgBIAEoCRIPCgdzZHBUeXBlGAIgASgFInMKC0NyZWF0ZU9mZmVy",
+            "EhsKE3JlY2VpdmVDb25uZWN0aW9uSWQYASABKAkSRwoLZGVzY3JpcHRpb24Y",
+            "AiABKAsyMi5SVEMuUHJvdG9HcnBjLlNpZ25hbFNlcnZlci5TZXNzaW9uRGVz",
+            "Y3JpcHRpb25EYXRhInMKC0Fuc3dlck9mZmVyEhsKE3JlY2VpdmVDb25uZWN0",
+            "aW9uSWQYASABKAkSRwoLZGVzY3JpcHRpb24YAiABKAsyMi5SVEMuUHJvdG9H",
+            "cnBjLlNpZ25hbFNlcnZlci5TZXNzaW9uRGVzY3JpcHRpb25EYXRhIkgKDElj",
+            "ZUNhbmRpZGF0ZRIRCgljYW5kaWRhdGUYASABKAkSFQoNc2RwTUxpbmVJbmRl",
+            "eBgCIAEoBRIOCgZzZHBNaWQYAyABKAkiHwoKUGVlck9ubGluZRIRCglzZXNz",
+            "aW9uSWQYASABKAkiIAoLUGVlck9mZkxpbmUSEQoJc2Vzc2lvbklkGAEgASgJ",
+            "IjsKE0MyU19RdWVyeVBsYXllckxpc3QSFAoMY29ubmVjdGlvbklkGAEgASgJ",
+            "Eg4KBnJvb21JZBgCIAEoCSImChNTMkNfUXVlcnlQbGF5ZXJMaXN0Eg8KB3Bs",
+            "YXlpZXMYASADKAkytwIKE1NpZ25hbFNlcnZlclNlcnZpY2USXgoHQ29ubmVj",
+            "dBInLlJUQy5Qcm90b0dycGMuU2lnbmFsU2VydmVyLkMyU19Db25uZWN0Gigu",
+            "UlRDLlByb3RvR3JwYy5TaWduYWxTZXJ2ZXIuUm91dGVNZXNzYWdlMAESSwoF",
+            "Um91dGUSKC5SVEMuUHJvdG9HcnBjLlNpZ25hbFNlcnZlci5Sb3V0ZU1lc3Nh",
+            "Z2UaGC5SVEMuUHJvdG9HcnBjLkRhdGEuVm9pZBJzCg9RdWVyeVBsYXllckxp",
+            "c3QSLy5SVEMuUHJvdG9HcnBjLlNpZ25hbFNlcnZlci5DMlNfUXVlcnlQbGF5",
+            "ZXJMaXN0Gi8uUlRDLlByb3RvR3JwYy5TaWduYWxTZXJ2ZXIuUzJDX1F1ZXJ5",
+            "UGxheWVyTGlzdGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.AnyReflection.Descriptor, global::RTC.ProtoGrpc.Data.DataReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::RTC.ProtoGrpc.SignalServer.RouteMessage), global::RTC.ProtoGrpc.SignalServer.RouteMessage.Parser, new[]{ "FromId", "ToId", "Msg" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::RTC.ProtoGrpc.SignalServer.C2S_Connect), global::RTC.ProtoGrpc.SignalServer.C2S_Connect.Parser, new[]{ "Session" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RTC.ProtoGrpc.SignalServer.C2S_Connect), global::RTC.ProtoGrpc.SignalServer.C2S_Connect.Parser, new[]{ "Session", "RoomId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RTC.ProtoGrpc.SignalServer.SessionDescriptionData), global::RTC.ProtoGrpc.SignalServer.SessionDescriptionData.Parser, new[]{ "Sdp", "SdpType" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RTC.ProtoGrpc.SignalServer.CreateOffer), global::RTC.ProtoGrpc.SignalServer.CreateOffer.Parser, new[]{ "ReceiveConnectionId", "Description" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RTC.ProtoGrpc.SignalServer.AnswerOffer), global::RTC.ProtoGrpc.SignalServer.AnswerOffer.Parser, new[]{ "ReceiveConnectionId", "Description" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::RTC.ProtoGrpc.SignalServer.IceCandidate), global::RTC.ProtoGrpc.SignalServer.IceCandidate.Parser, new[]{ "IceCandidate_" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RTC.ProtoGrpc.SignalServer.IceCandidate), global::RTC.ProtoGrpc.SignalServer.IceCandidate.Parser, new[]{ "Candidate", "SdpMLineIndex", "SdpMid" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RTC.ProtoGrpc.SignalServer.PeerOnline), global::RTC.ProtoGrpc.SignalServer.PeerOnline.Parser, new[]{ "SessionId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RTC.ProtoGrpc.SignalServer.PeerOffLine), global::RTC.ProtoGrpc.SignalServer.PeerOffLine.Parser, new[]{ "SessionId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::RTC.ProtoGrpc.SignalServer.C2S_QueryPlayerList), global::RTC.ProtoGrpc.SignalServer.C2S_QueryPlayerList.Parser, new[]{ "ConnectionId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::RTC.ProtoGrpc.SignalServer.C2S_QueryPlayerList), global::RTC.ProtoGrpc.SignalServer.C2S_QueryPlayerList.Parser, new[]{ "ConnectionId", "RoomId" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::RTC.ProtoGrpc.SignalServer.S2C_QueryPlayerList), global::RTC.ProtoGrpc.SignalServer.S2C_QueryPlayerList.Parser, new[]{ "Playies" }, null, null, null)
           }));
     }
@@ -279,6 +285,7 @@ namespace RTC.ProtoGrpc.SignalServer {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public C2S_Connect(C2S_Connect other) : this() {
       session_ = other.session_ != null ? other.session_.Clone() : null;
+      roomId_ = other.roomId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -298,6 +305,17 @@ namespace RTC.ProtoGrpc.SignalServer {
       }
     }
 
+    /// <summary>Field number for the "roomId" field.</summary>
+    public const int RoomIdFieldNumber = 2;
+    private string roomId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string RoomId {
+      get { return roomId_; }
+      set {
+        roomId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as C2S_Connect);
@@ -312,6 +330,7 @@ namespace RTC.ProtoGrpc.SignalServer {
         return true;
       }
       if (!object.Equals(Session, other.Session)) return false;
+      if (RoomId != other.RoomId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -319,6 +338,7 @@ namespace RTC.ProtoGrpc.SignalServer {
     public override int GetHashCode() {
       int hash = 1;
       if (session_ != null) hash ^= Session.GetHashCode();
+      if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -336,6 +356,10 @@ namespace RTC.ProtoGrpc.SignalServer {
         output.WriteRawTag(10);
         output.WriteMessage(Session);
       }
+      if (RoomId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(RoomId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -346,6 +370,9 @@ namespace RTC.ProtoGrpc.SignalServer {
       int size = 0;
       if (session_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Session);
+      }
+      if (RoomId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -363,6 +390,9 @@ namespace RTC.ProtoGrpc.SignalServer {
           session_ = new global::RTC.ProtoGrpc.Data.TokenSession();
         }
         Session.MergeFrom(other.Session);
+      }
+      if (other.RoomId.Length != 0) {
+        RoomId = other.RoomId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -382,6 +412,167 @@ namespace RTC.ProtoGrpc.SignalServer {
             input.ReadMessage(session_);
             break;
           }
+          case 18: {
+            RoomId = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class SessionDescriptionData : pb::IMessage<SessionDescriptionData> {
+    private static readonly pb::MessageParser<SessionDescriptionData> _parser = new pb::MessageParser<SessionDescriptionData>(() => new SessionDescriptionData());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<SessionDescriptionData> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::RTC.ProtoGrpc.SignalServer.SignalReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SessionDescriptionData() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SessionDescriptionData(SessionDescriptionData other) : this() {
+      sdp_ = other.sdp_;
+      sdpType_ = other.sdpType_;
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public SessionDescriptionData Clone() {
+      return new SessionDescriptionData(this);
+    }
+
+    /// <summary>Field number for the "sdp" field.</summary>
+    public const int SdpFieldNumber = 1;
+    private string sdp_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Sdp {
+      get { return sdp_; }
+      set {
+        sdp_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "sdpType" field.</summary>
+    public const int SdpTypeFieldNumber = 2;
+    private int sdpType_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int SdpType {
+      get { return sdpType_; }
+      set {
+        sdpType_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as SessionDescriptionData);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(SessionDescriptionData other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (Sdp != other.Sdp) return false;
+      if (SdpType != other.SdpType) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (Sdp.Length != 0) hash ^= Sdp.GetHashCode();
+      if (SdpType != 0) hash ^= SdpType.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (Sdp.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Sdp);
+      }
+      if (SdpType != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(SdpType);
+      }
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (Sdp.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Sdp);
+      }
+      if (SdpType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SdpType);
+      }
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(SessionDescriptionData other) {
+      if (other == null) {
+        return;
+      }
+      if (other.Sdp.Length != 0) {
+        Sdp = other.Sdp;
+      }
+      if (other.SdpType != 0) {
+        SdpType = other.SdpType;
+      }
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            Sdp = input.ReadString();
+            break;
+          }
+          case 16: {
+            SdpType = input.ReadInt32();
+            break;
+          }
         }
       }
     }
@@ -396,7 +587,7 @@ namespace RTC.ProtoGrpc.SignalServer {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::RTC.ProtoGrpc.SignalServer.SignalReflection.Descriptor.MessageTypes[2]; }
+      get { return global::RTC.ProtoGrpc.SignalServer.SignalReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -414,7 +605,7 @@ namespace RTC.ProtoGrpc.SignalServer {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public CreateOffer(CreateOffer other) : this() {
       receiveConnectionId_ = other.receiveConnectionId_;
-      description_ = other.description_;
+      description_ = other.description_ != null ? other.description_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -436,12 +627,12 @@ namespace RTC.ProtoGrpc.SignalServer {
 
     /// <summary>Field number for the "description" field.</summary>
     public const int DescriptionFieldNumber = 2;
-    private string description_ = "";
+    private global::RTC.ProtoGrpc.SignalServer.SessionDescriptionData description_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Description {
+    public global::RTC.ProtoGrpc.SignalServer.SessionDescriptionData Description {
       get { return description_; }
       set {
-        description_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        description_ = value;
       }
     }
 
@@ -459,7 +650,7 @@ namespace RTC.ProtoGrpc.SignalServer {
         return true;
       }
       if (ReceiveConnectionId != other.ReceiveConnectionId) return false;
-      if (Description != other.Description) return false;
+      if (!object.Equals(Description, other.Description)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -467,7 +658,7 @@ namespace RTC.ProtoGrpc.SignalServer {
     public override int GetHashCode() {
       int hash = 1;
       if (ReceiveConnectionId.Length != 0) hash ^= ReceiveConnectionId.GetHashCode();
-      if (Description.Length != 0) hash ^= Description.GetHashCode();
+      if (description_ != null) hash ^= Description.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -485,9 +676,9 @@ namespace RTC.ProtoGrpc.SignalServer {
         output.WriteRawTag(10);
         output.WriteString(ReceiveConnectionId);
       }
-      if (Description.Length != 0) {
+      if (description_ != null) {
         output.WriteRawTag(18);
-        output.WriteString(Description);
+        output.WriteMessage(Description);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -500,8 +691,8 @@ namespace RTC.ProtoGrpc.SignalServer {
       if (ReceiveConnectionId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ReceiveConnectionId);
       }
-      if (Description.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
+      if (description_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Description);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -517,8 +708,11 @@ namespace RTC.ProtoGrpc.SignalServer {
       if (other.ReceiveConnectionId.Length != 0) {
         ReceiveConnectionId = other.ReceiveConnectionId;
       }
-      if (other.Description.Length != 0) {
-        Description = other.Description;
+      if (other.description_ != null) {
+        if (description_ == null) {
+          description_ = new global::RTC.ProtoGrpc.SignalServer.SessionDescriptionData();
+        }
+        Description.MergeFrom(other.Description);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -536,7 +730,10 @@ namespace RTC.ProtoGrpc.SignalServer {
             break;
           }
           case 18: {
-            Description = input.ReadString();
+            if (description_ == null) {
+              description_ = new global::RTC.ProtoGrpc.SignalServer.SessionDescriptionData();
+            }
+            input.ReadMessage(description_);
             break;
           }
         }
@@ -553,7 +750,7 @@ namespace RTC.ProtoGrpc.SignalServer {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::RTC.ProtoGrpc.SignalServer.SignalReflection.Descriptor.MessageTypes[3]; }
+      get { return global::RTC.ProtoGrpc.SignalServer.SignalReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -571,7 +768,7 @@ namespace RTC.ProtoGrpc.SignalServer {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public AnswerOffer(AnswerOffer other) : this() {
       receiveConnectionId_ = other.receiveConnectionId_;
-      description_ = other.description_;
+      description_ = other.description_ != null ? other.description_.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -593,12 +790,12 @@ namespace RTC.ProtoGrpc.SignalServer {
 
     /// <summary>Field number for the "description" field.</summary>
     public const int DescriptionFieldNumber = 2;
-    private string description_ = "";
+    private global::RTC.ProtoGrpc.SignalServer.SessionDescriptionData description_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Description {
+    public global::RTC.ProtoGrpc.SignalServer.SessionDescriptionData Description {
       get { return description_; }
       set {
-        description_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        description_ = value;
       }
     }
 
@@ -616,7 +813,7 @@ namespace RTC.ProtoGrpc.SignalServer {
         return true;
       }
       if (ReceiveConnectionId != other.ReceiveConnectionId) return false;
-      if (Description != other.Description) return false;
+      if (!object.Equals(Description, other.Description)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -624,7 +821,7 @@ namespace RTC.ProtoGrpc.SignalServer {
     public override int GetHashCode() {
       int hash = 1;
       if (ReceiveConnectionId.Length != 0) hash ^= ReceiveConnectionId.GetHashCode();
-      if (Description.Length != 0) hash ^= Description.GetHashCode();
+      if (description_ != null) hash ^= Description.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -642,9 +839,9 @@ namespace RTC.ProtoGrpc.SignalServer {
         output.WriteRawTag(10);
         output.WriteString(ReceiveConnectionId);
       }
-      if (Description.Length != 0) {
+      if (description_ != null) {
         output.WriteRawTag(18);
-        output.WriteString(Description);
+        output.WriteMessage(Description);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -657,8 +854,8 @@ namespace RTC.ProtoGrpc.SignalServer {
       if (ReceiveConnectionId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ReceiveConnectionId);
       }
-      if (Description.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
+      if (description_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Description);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -674,8 +871,11 @@ namespace RTC.ProtoGrpc.SignalServer {
       if (other.ReceiveConnectionId.Length != 0) {
         ReceiveConnectionId = other.ReceiveConnectionId;
       }
-      if (other.Description.Length != 0) {
-        Description = other.Description;
+      if (other.description_ != null) {
+        if (description_ == null) {
+          description_ = new global::RTC.ProtoGrpc.SignalServer.SessionDescriptionData();
+        }
+        Description.MergeFrom(other.Description);
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -693,7 +893,10 @@ namespace RTC.ProtoGrpc.SignalServer {
             break;
           }
           case 18: {
-            Description = input.ReadString();
+            if (description_ == null) {
+              description_ = new global::RTC.ProtoGrpc.SignalServer.SessionDescriptionData();
+            }
+            input.ReadMessage(description_);
             break;
           }
         }
@@ -710,7 +913,7 @@ namespace RTC.ProtoGrpc.SignalServer {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::RTC.ProtoGrpc.SignalServer.SignalReflection.Descriptor.MessageTypes[4]; }
+      get { return global::RTC.ProtoGrpc.SignalServer.SignalReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -727,7 +930,9 @@ namespace RTC.ProtoGrpc.SignalServer {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public IceCandidate(IceCandidate other) : this() {
-      iceCandidate_ = other.iceCandidate_;
+      candidate_ = other.candidate_;
+      sdpMLineIndex_ = other.sdpMLineIndex_;
+      sdpMid_ = other.sdpMid_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -736,14 +941,36 @@ namespace RTC.ProtoGrpc.SignalServer {
       return new IceCandidate(this);
     }
 
-    /// <summary>Field number for the "iceCandidate" field.</summary>
-    public const int IceCandidate_FieldNumber = 1;
-    private string iceCandidate_ = "";
+    /// <summary>Field number for the "candidate" field.</summary>
+    public const int CandidateFieldNumber = 1;
+    private string candidate_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string IceCandidate_ {
-      get { return iceCandidate_; }
+    public string Candidate {
+      get { return candidate_; }
       set {
-        iceCandidate_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        candidate_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "sdpMLineIndex" field.</summary>
+    public const int SdpMLineIndexFieldNumber = 2;
+    private int sdpMLineIndex_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int SdpMLineIndex {
+      get { return sdpMLineIndex_; }
+      set {
+        sdpMLineIndex_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "sdpMid" field.</summary>
+    public const int SdpMidFieldNumber = 3;
+    private string sdpMid_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string SdpMid {
+      get { return sdpMid_; }
+      set {
+        sdpMid_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -760,14 +987,18 @@ namespace RTC.ProtoGrpc.SignalServer {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (IceCandidate_ != other.IceCandidate_) return false;
+      if (Candidate != other.Candidate) return false;
+      if (SdpMLineIndex != other.SdpMLineIndex) return false;
+      if (SdpMid != other.SdpMid) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (IceCandidate_.Length != 0) hash ^= IceCandidate_.GetHashCode();
+      if (Candidate.Length != 0) hash ^= Candidate.GetHashCode();
+      if (SdpMLineIndex != 0) hash ^= SdpMLineIndex.GetHashCode();
+      if (SdpMid.Length != 0) hash ^= SdpMid.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -781,9 +1012,17 @@ namespace RTC.ProtoGrpc.SignalServer {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (IceCandidate_.Length != 0) {
+      if (Candidate.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(IceCandidate_);
+        output.WriteString(Candidate);
+      }
+      if (SdpMLineIndex != 0) {
+        output.WriteRawTag(16);
+        output.WriteInt32(SdpMLineIndex);
+      }
+      if (SdpMid.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(SdpMid);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -793,8 +1032,14 @@ namespace RTC.ProtoGrpc.SignalServer {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (IceCandidate_.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(IceCandidate_);
+      if (Candidate.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Candidate);
+      }
+      if (SdpMLineIndex != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(SdpMLineIndex);
+      }
+      if (SdpMid.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(SdpMid);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -807,8 +1052,14 @@ namespace RTC.ProtoGrpc.SignalServer {
       if (other == null) {
         return;
       }
-      if (other.IceCandidate_.Length != 0) {
-        IceCandidate_ = other.IceCandidate_;
+      if (other.Candidate.Length != 0) {
+        Candidate = other.Candidate;
+      }
+      if (other.SdpMLineIndex != 0) {
+        SdpMLineIndex = other.SdpMLineIndex;
+      }
+      if (other.SdpMid.Length != 0) {
+        SdpMid = other.SdpMid;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -822,7 +1073,15 @@ namespace RTC.ProtoGrpc.SignalServer {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            IceCandidate_ = input.ReadString();
+            Candidate = input.ReadString();
+            break;
+          }
+          case 16: {
+            SdpMLineIndex = input.ReadInt32();
+            break;
+          }
+          case 26: {
+            SdpMid = input.ReadString();
             break;
           }
         }
@@ -839,7 +1098,7 @@ namespace RTC.ProtoGrpc.SignalServer {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::RTC.ProtoGrpc.SignalServer.SignalReflection.Descriptor.MessageTypes[5]; }
+      get { return global::RTC.ProtoGrpc.SignalServer.SignalReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -968,7 +1227,7 @@ namespace RTC.ProtoGrpc.SignalServer {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::RTC.ProtoGrpc.SignalServer.SignalReflection.Descriptor.MessageTypes[6]; }
+      get { return global::RTC.ProtoGrpc.SignalServer.SignalReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1097,7 +1356,7 @@ namespace RTC.ProtoGrpc.SignalServer {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::RTC.ProtoGrpc.SignalServer.SignalReflection.Descriptor.MessageTypes[7]; }
+      get { return global::RTC.ProtoGrpc.SignalServer.SignalReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1115,6 +1374,7 @@ namespace RTC.ProtoGrpc.SignalServer {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public C2S_QueryPlayerList(C2S_QueryPlayerList other) : this() {
       connectionId_ = other.connectionId_;
+      roomId_ = other.roomId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1134,6 +1394,17 @@ namespace RTC.ProtoGrpc.SignalServer {
       }
     }
 
+    /// <summary>Field number for the "roomId" field.</summary>
+    public const int RoomIdFieldNumber = 2;
+    private string roomId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string RoomId {
+      get { return roomId_; }
+      set {
+        roomId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as C2S_QueryPlayerList);
@@ -1148,6 +1419,7 @@ namespace RTC.ProtoGrpc.SignalServer {
         return true;
       }
       if (ConnectionId != other.ConnectionId) return false;
+      if (RoomId != other.RoomId) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1155,6 +1427,7 @@ namespace RTC.ProtoGrpc.SignalServer {
     public override int GetHashCode() {
       int hash = 1;
       if (ConnectionId.Length != 0) hash ^= ConnectionId.GetHashCode();
+      if (RoomId.Length != 0) hash ^= RoomId.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1172,6 +1445,10 @@ namespace RTC.ProtoGrpc.SignalServer {
         output.WriteRawTag(10);
         output.WriteString(ConnectionId);
       }
+      if (RoomId.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(RoomId);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1182,6 +1459,9 @@ namespace RTC.ProtoGrpc.SignalServer {
       int size = 0;
       if (ConnectionId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(ConnectionId);
+      }
+      if (RoomId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RoomId);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1196,6 +1476,9 @@ namespace RTC.ProtoGrpc.SignalServer {
       }
       if (other.ConnectionId.Length != 0) {
         ConnectionId = other.ConnectionId;
+      }
+      if (other.RoomId.Length != 0) {
+        RoomId = other.RoomId;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1212,6 +1495,10 @@ namespace RTC.ProtoGrpc.SignalServer {
             ConnectionId = input.ReadString();
             break;
           }
+          case 18: {
+            RoomId = input.ReadString();
+            break;
+          }
         }
       }
     }
@@ -1226,7 +1513,7 @@ namespace RTC.ProtoGrpc.SignalServer {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::RTC.ProtoGrpc.SignalServer.SignalReflection.Descriptor.MessageTypes[8]; }
+      get { return global::RTC.ProtoGrpc.SignalServer.SignalReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

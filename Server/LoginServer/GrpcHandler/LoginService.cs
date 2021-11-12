@@ -30,7 +30,19 @@ namespace LoginServer.GrpcHandler
             var session =
                 await DataBaseManager.S.LoginAsync(request.UserName, request.Password, context.CancellationToken);
             //session error 
-            if (session == null) throw new ResultException($"Session write error");
+            if (session == null)
+            {
+                (_, session) = await DataBaseManager.S.CreateAccountAsync(request.UserName, request.Password,
+                    string.Empty
+                    , string.Empty,
+                    context.CancellationToken);
+            }
+
+            if (session == null)
+            {
+                throw new ResultException($"{request} is error with password");
+            }
+
             await WriteSessionAsync(context, session.AccountId);
 
             return new L2C_Login

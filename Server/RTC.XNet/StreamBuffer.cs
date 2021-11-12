@@ -1,11 +1,18 @@
 using System.Collections.Concurrent;
+using System.Threading;
 using Google.Protobuf;
 
 namespace RTC.XNet
 {
-    public class StreamBuffer<TData> where TData : IMessage, new()
+    public class StreamBuffer<TData> : System.IDisposable
+        where TData : IMessage, new()
     {
         private readonly ConcurrentQueue<TData> _requests = new ConcurrentQueue<TData>();
+
+        private readonly CancellationTokenSource _source = new CancellationTokenSource();
+
+        public CancellationToken CloseToken => _source.Token;
+       
 
         public int Max { get; }
 
@@ -31,10 +38,11 @@ namespace RTC.XNet
         }
 
         public bool IsWorking { private set; get; } = true;
-
-        public virtual void Close()
+        
+        public virtual void Dispose()
         {
             IsWorking = false;
+            _source.Cancel();
         }
     }
 }

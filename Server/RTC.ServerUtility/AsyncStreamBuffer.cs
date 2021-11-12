@@ -21,9 +21,10 @@ namespace RTC.ServerUtility
             return t;
         }
 
-        public override void Close()
+        public override void Dispose()
         {
-            base.Close();
+            base.Dispose();
+            _semaphoreSlim.Dispose();
             Resume();
         }
 
@@ -44,15 +45,20 @@ namespace RTC.ServerUtility
         
         public async IAsyncEnumerable<TData> TryPullAsync([EnumeratorCancellation] CancellationToken token)
         {
+
+            var linked = CancellationTokenSource.CreateLinkedTokenSource(token, this.CloseToken);
+            var breakToken = linked.Token;
             while (IsWorking)
             {
-                await _semaphoreSlim.WaitAsync(cancellationToken: token);
+                await _semaphoreSlim.WaitAsync(breakToken);
+                
                 while (TryPull(out var data))
                 {
-                    token.ThrowIfCancellationRequested();
+                    breakToken.ThrowIfCancellationRequested();
                     yield return data;
                 }
-                token.ThrowIfCancellationRequested();
+
+                breakToken.ThrowIfCancellationRequested();
             }
         }
     }

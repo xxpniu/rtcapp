@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+
+package RTC.ProtoGrpc.Room;
+
+import "data.proto";
+
+
+message C2S_CreateRoom
+{
+    int32 maxPlayer = 1;
+}
+
+
+message S2C_CreateRoom
+{
+    string roomId =1;
+}
+
+
+service RoomService
+{
+   rpc CreateRoom (C2S_CreateRoom) returns (S2C_CreateRoom);
+}

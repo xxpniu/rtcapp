@@ -46,3 +46,7 @@ Tools/output
 
 *.env
 .env
+
+iosbuild/
+AppClient/Assets/StreamingAssets/config.json
+AppClient/Assets/StreamingAssets/config.json*

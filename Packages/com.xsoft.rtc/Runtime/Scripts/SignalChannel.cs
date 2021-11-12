@@ -12,32 +12,35 @@ using RTC.ProtoGrpc.SignalServer;
 using RTC.XNet;
 using Unity.WebRTC;
 using UnityEngine;
+// ReSharper disable InconsistentNaming
 
 namespace XRTC
 {
-   public class SignalChannel: IDisposable
+    public class SignalChannel : IDisposable
     {
         public struct EventData<T>
         {
             public string FromID;
             public T Data;
         }
-        
+
         private readonly string _ip;
         private readonly int _port;
         private readonly string _sessionId;
         private readonly TokenSession _tokenSession;
-        
+        private readonly string roomId;
+
         private SignalServerService.SignalServerServiceClient _service;
         private LogChannel _logChannel;
         private AsyncServerStreamingCall<RouteMessage> _receive;
-        public SubscribeTools<EventData<RTCSessionDescription>> OnOffer { get; } 
-            =new SubscribeTools<EventData<RTCSessionDescription>>();
 
-        public SubscribeTools<EventData<RTCSessionDescription>> OnAnswer { get; } 
-            =new SubscribeTools<EventData<RTCSessionDescription>>();
+        public SubscribeTools<EventData<RTCSessionDescription>> OnOffer { get; }
+            = new SubscribeTools<EventData<RTCSessionDescription>>();
 
-        public SubscribeTools<EventData<RTCIceCandidate>> OnIceCandidate { get; } 
+        public SubscribeTools<EventData<RTCSessionDescription>> OnAnswer { get; }
+            = new SubscribeTools<EventData<RTCSessionDescription>>();
+
+        public SubscribeTools<EventData<RTCIceCandidate>> OnIceCandidate { get; }
             = new SubscribeTools<EventData<RTCIceCandidate>>();
 
         public SubscribeTools<string> OnPeerOnline { get; }
@@ -50,22 +53,29 @@ namespace XRTC
             = new SubscribeTools<string>();
 
         public string SessionId => _sessionId;
-      
 
-        public SignalChannel(string address, TokenSession session):this(address.Split(':')[0],
-            int.Parse(address.Split(':')[1]), session)
+        ~SignalChannel()
         {
-            
+            Dispose();
         }
+        
+        public SignalChannel(string address, TokenSession session, string roomId)
+            : this(address.Split(':')[0],
+                int.Parse(address.Split(':')[1]), session, roomId)
+        {
 
-        public SignalChannel(string ip, int port, TokenSession session)
+            this.roomId = roomId;
+        }
+        
+
+        public SignalChannel(string ip, int port, TokenSession session, string roomId)
         {
             _ip = ip;
             _port = port;
             _sessionId = session.AccountId;
             _tokenSession = session;
         }
-        
+
         private async Task HandleReceive(RouteMessage t)
         {
             try
@@ -74,37 +84,61 @@ namespace XRTC
                 if (t.Msg.TryUnpack<CreateOffer>(out var offer))
                 {
                     await UniTask.SwitchToMainThread();
-                    Debugger.LogIfLevel(LoggerType.Debug,()=>$"OfferDes:{offer.Description}");
+                    Debugger.LogIfLevel(LoggerType.Debug, () => $"OfferDes:{offer.Description}");
+
+                    var sdp = new RTCSessionDescription
+                    {
+                        sdp = offer.Description.Sdp,
+                        type =  (RTCSdpType) offer.Description.SdpType
+                    };
+                    
                     var data = new EventData<RTCSessionDescription>()
                     {
-                        FromID =  t.FromId,
-                        Data = JsonUtility.FromJson<RTCSessionDescription>(offer.Description)
+                        FromID = t.FromId,
+                        Data = sdp
                     };
-                    OnOffer?.Invoke(  data);
+                    Debugger.LogIfLevel(LoggerType.Debug, ()=> $"Offer Des:{data.Data}" );
+                    OnOffer?.Invoke(data);
                     return;
                 }
 
                 if (t.Msg.TryUnpack<AnswerOffer>(out var answer))
                 {
                     await UniTask.SwitchToMainThread();
-                    Debugger.LogIfLevel(LoggerType.Debug,()=>$"Answer:{answer.Description}");
+                    Debugger.LogIfLevel(LoggerType.Debug, () => $"Answer:{answer.Description}");
+                    var sdp = new RTCSessionDescription
+                    {
+                        sdp = answer.Description.Sdp,
+                        type =  (RTCSdpType) answer.Description.SdpType
+                    };
                     var data = new EventData<RTCSessionDescription>()
                     {
-                        FromID =  t.FromId,
-                        Data = JsonUtility.FromJson<RTCSessionDescription>(answer.Description)
+                        FromID = t.FromId,
+                        Data =  sdp
                     };
+                    Debugger.LogIfLevel(LoggerType.Debug, ()=> $"Answer Des:{data.Data}" );
+                    
+                    
                     OnAnswer?.Invoke(data);
                 }
 
                 if (t.Msg.TryUnpack<IceCandidate>(out var candidate))
                 {
                     await UniTask.SwitchToMainThread();
-                    Debugger.LogIfLevel(LoggerType.Debug,()=>$"candidate:{candidate.IceCandidate_}");
+                    Debugger.LogIfLevel(LoggerType.Debug, () => $"candidate:{candidate}");
+                    var initData = new RTCIceCandidateInit
+                    {
+                        candidate = candidate.Candidate,
+                        sdpMLineIndex = candidate.SdpMLineIndex ==-1?(int?)null:candidate.SdpMLineIndex,
+                        sdpMid = candidate.SdpMid
+                    };
+                    
                     var data = new EventData<RTCIceCandidate>
                     {
-                        Data = JsonUtility.FromJson<RTCIceCandidate>(candidate.IceCandidate_),
+                        Data = new RTCIceCandidate(initData ),
                         FromID = t.FromId
                     };
+                    //Debugger.LogIfLevel(LoggerType.Debug, ()=> $"Answer Des:{candidate.IceCandidate_}" );
                     OnIceCandidate?.Invoke(data);
                 }
 
@@ -122,18 +156,18 @@ namespace XRTC
             }
             catch (Exception ex)
             {
-                Debugger.LogIfLevel(LoggerType.Error,()=>ex.ToString());
+                Debugger.LogIfLevel(LoggerType.Error, () => ex.ToString());
             }
         }
-        
+
         public async Task ConnectAsync(CancellationToken token = default)
         {
             _logChannel = new LogChannel(_ip, _port);
             await _logChannel.ConnectAsync(DateTime.UtcNow.AddSeconds(10));
-            _service = _logChannel.CreateClient<SignalServerService.SignalServerServiceClient>();
+            _service = await _logChannel.CreateClientAsync<SignalServerService.SignalServerServiceClient>();
             var linked = CancellationTokenSource.CreateLinkedTokenSource(_logChannel.ShutdownToken, token);
 
-            _receive = _service.Connect(new C2S_Connect { Session = _tokenSession},
+            _receive = _service.Connect(new C2S_Connect { Session = _tokenSession, RoomId = roomId },
                 cancellationToken: linked.Token);
 
             _ = Task.Factory.StartNew(async () =>
@@ -143,7 +177,7 @@ namespace XRTC
                 {
                     await _receive.ResponseStream.ForEachAsync(HandleReceive);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     //ignore
                     //Debugger.LogIfLevel(LoggerType.Debug,()=>ex.ToString());
@@ -152,11 +186,11 @@ namespace XRTC
 
                 await UniTask.SwitchToMainThread();
                 OnDisconnect.Invoke(error);
-                Debugger.LogIfLevel(LoggerType.Debug,()=>$"Exit:{_sessionId}");
+                Debugger.LogIfLevel(LoggerType.Debug, () => $"Exit:{_sessionId}");
             }, linked.Token);
         }
-        
-        public async Task Route<T>(string to, T msg) where  T:IMessage
+
+        public async Task Route<T>(string to, T msg) where T : IMessage
         {
             await _service.RouteAsync(new RouteMessage()
             {
@@ -165,11 +199,15 @@ namespace XRTC
                 Msg = Any.Pack(msg)
             });
         }
-        
-        
+
+
         public async Task<IList<string>> QueryPlayers()
         {
-            var result = await _service.QueryPlayerListAsync(new C2S_QueryPlayerList {ConnectionId = _sessionId},
+            var result = await _service.QueryPlayerListAsync(new C2S_QueryPlayerList
+                {
+                    ConnectionId = _sessionId,
+                    RoomId = roomId
+                },
                 cancellationToken: _logChannel.ShutdownToken);
             return result.Playies;
         }
@@ -184,6 +222,7 @@ namespace XRTC
             OnPeerOffline?.Dispose();
             OnDisconnect?.Dispose();
             _ = _logChannel?.ShutdownAsync();
+            GC.SuppressFinalize(this);
         }
     }
 

@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using RTC.XNet;
-using UnityEngine;
 
-namespace XRTC
+namespace RTC.XNet
 {
     public delegate bool SubscribeInvoke<in T>(T des);
 
@@ -15,7 +13,7 @@ namespace XRTC
 
         public void Invoke(T des)
         {
-            Debugger.LogIfLevel(LoggerType.Debug, () => $"{JsonUtility.ToJson(des)}");
+            Debugger.LogIfLevel(LoggerType.Debug, () => $"{des}");
             foreach (var invoke in _invokes)
             {
                 if (invoke.Invoke(des))
@@ -55,7 +53,6 @@ namespace XRTC
         {
             _invokes.Clear();
         }
+        
     }
-
-
 }

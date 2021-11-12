@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using RTC.ProtoGrpc.Data;
 using RTC.ProtoGrpc.LoginServer;
 using RTC.XNet;
@@ -20,16 +22,23 @@ public class UILogin : MonoBehaviour
 
     public async void Login()
     {
-        await DoLogin(account.text, pwd.text);
+        Launch.S.autoLogin = false;
+        var id = SystemInfo.deviceUniqueIdentifier;
+        var password = Md5Tool.GetMd5Hash(id);
+
+        await DoLogin(id, password);
     }
 
     private async Task DoLogin(string userName, string password)
     {
+        
+        if(string.IsNullOrEmpty(account.text)) return;
+        
+        
         btLogin.gameObject.SetActive(false);
         loginText.gameObject.SetActive(true);
         Launch.S.useSoft = software.isOn;
         Launch.S.useFrontCamera = frontCamera.isOn;
-        
         try
         {
             var accountVal = userName;// account.text;
@@ -52,32 +61,37 @@ public class UILogin : MonoBehaviour
                 Password = pwdVal
             });
             Launch.S.tokenSession = result.Token;
-            await Launch.S.GoToRTCAsync();
+            PlayerPrefs.SetString("__ROOM_ID", account.text);
+            await Launch.S.GoToRtcAsync(account.text);
         }
         catch (Exception ex)
         {
             Debug.LogException(ex);
-            if (btLogin.gameObject == null) return;
+                    
             btLogin.gameObject.SetActive(true);
             loginText.gameObject.SetActive(false);
         }
+
     }
 
     // Start is called before the first frame update
-    void Start()
+    async void Start()
     {
         loginText.gameObject.SetActive(false);
-    }
+        account.text = PlayerPrefs.GetString("__ROOM_ID", 
+            Md5Tool.GetMd5Hash(DateTime.Now.ToString(CultureInfo.CurrentCulture)));
+        
+        //auto
 
-    public async void ClickAccount1()
-    {
-        await DoLogin(Launch.S.config.accounts[0] , Launch.S.config.accounts[1]);
+        if (Launch.S.autoLogin)
+        {
+
+            await UniTask.Delay(TimeSpan.FromSeconds(3), cancellationToken: this.GetCancellationTokenOnDestroy());
+
+            Login();
+        }
     }
     
-    public async void ClickAccount2()
-    {
-        await DoLogin(Launch.S.config.accounts[2] , Launch.S.config.accounts[3]);
-    }
 
     // Update is called once per frame
     void Update()

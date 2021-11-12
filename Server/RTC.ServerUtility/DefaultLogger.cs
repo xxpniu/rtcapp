@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using Grpc.Core.Logging;
 using RTC.XNet;
+using Debugger = RTC.XNet.Debugger;
 
 namespace RTC.ServerUtility
 {
-    public class DefaultLogger : Logger, ILogger, IDisposable
+    public class DefaultLogger : ILogger, IDisposable
     {
         public DefaultLogger()
         {
@@ -76,7 +78,7 @@ namespace RTC.ServerUtility
             Debugger.LogWaring(message);
         }
 
-        public override void WriteLog(DebuggerLog log)
+        public  void WriteLog(DebuggerLog log)
         {
             switch (log.Type)
             {
@@ -90,8 +92,20 @@ namespace RTC.ServerUtility
                 default:
                     break;
             }
+            
+            
+            
             Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId}->{log}");
             Console.ResetColor();
+
+            if (log.Type 
+                is LoggerType.Error
+                or LoggerType.Debug 
+                or LoggerType.Waring)
+            {
+                var info = new StackTrace();
+                Console.WriteLine(info.ToString());
+            }
         }
     }
 }

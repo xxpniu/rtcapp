@@ -23,6 +23,7 @@ namespace XRTC
             if (PeerTexture != null) UnityEngine.Object.Destroy(PeerTexture);
             PeerTexture = null;
             PeerConnection = null;
+            GC.SuppressFinalize(this);
         }
 
         public void SetTexture(Texture texture)
@@ -58,6 +59,12 @@ namespace XRTC
         public void SetAudioClip(AudioClip renderer)
         {
             Clip = renderer;
+        }
+
+        ~RTCClient()
+        {
+            Dispose();
+            
         }
     }
 

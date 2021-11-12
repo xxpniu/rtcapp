@@ -9,7 +9,7 @@ namespace RTC.XNet
     /// </summary>
     public static class Debugger
     {
-        public static LoggerType LoggerLevel = LoggerType.Log;
+        public static LoggerType LoggerLevel = LoggerType.Debug;
         
         public static void Log(object msg)
         {
@@ -42,7 +42,7 @@ namespace RTC.XNet
                 Type = level,
                 Message = log
             };
-            Logger?.WriteLog(dLog);
+            Logger?.Invoke(dLog);
         }
 
         private static void DoLog(LoggerType type, string msg)
@@ -53,29 +53,32 @@ namespace RTC.XNet
                 Message = msg,
                 Type = type
             };
-            Logger?.WriteLog(log);
+            Logger?.Invoke(log);
         }
 
-        public static Logger Logger { set; get; }
+        public static LogWriter Logger { set; get; }
+
+        public static void SetConsole()
+        {
+            Logger = log => Console.WriteLine(log.ToString());
+        }
     }
 
     /// <summary>
     /// 日志记录者
     /// </summary>
-    public abstract class Logger
-    {
-        public abstract void WriteLog(DebuggerLog log);
-    }
+    public delegate void LogWriter(DebuggerLog log);
+
 
     /// <summary>
     /// 日志类型
     /// </summary>
     public enum LoggerType
     {
-        Log = 0,
-        Waring,
-        Error,
-        Debug
+        Debug = 0,
+        Log = 1,
+        Waring = 2,
+        Error = 3
     }
 
     /// <summary>
@@ -92,14 +95,7 @@ namespace RTC.XNet
             return $"[{Type}][{LogTime}]:{Message}";
         }
     }
-
-    public class ConsoleLog:Logger
-    {
-        public override void WriteLog(DebuggerLog log)
-        {
-            Console.WriteLine(log.ToString());
-        }
-    }
+    
 
 
 }

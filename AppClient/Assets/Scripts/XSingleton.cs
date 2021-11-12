@@ -2,10 +2,10 @@
 using System.Reflection;
 using UnityEngine;
 
-	[AttributeUsage(AttributeTargets.Class)]
-	public class DestroyOnLoadAttribute : Attribute
-	{
-	}
+[AttributeUsage(AttributeTargets.Class)]
+public class DestroyOnLoadAttribute : Attribute
+{
+}
 
 public class XSingleton<T> : MonoBehaviour where T : MonoBehaviour, new()
 {

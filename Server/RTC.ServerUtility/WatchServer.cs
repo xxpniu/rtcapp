@@ -18,12 +18,11 @@ namespace RTC.ServerUtility
             return Task.CompletedTask;
         }
     }
-    public class WatcherServer<TKey, TServer> : IEnumerable<TServer>
+    public class WatcherServer<TKey, TServer> : 
+        IEnumerable<TServer> ,IDisposable
         where TServer : IMessage, new()
     {
-
-        public delegate void WatchChanged(TServer[] old, TServer[] newList);
-
+        
         private class ZkWatcher : Watcher
         {
 
@@ -92,7 +91,6 @@ namespace RTC.ServerUtility
         
         public TServer AnyOne()
         {
-            //var list = _serverConfigs.ToArray();
             var key= _serverConfigs.FirstOrDefault();
             return key.Value;
         }
@@ -126,10 +124,10 @@ namespace RTC.ServerUtility
                 await LoadServerAsync(path);
             }
 
-            OnRefreshed?.Invoke();
+            OnRefreshed?.Invoke(this);
             var newList = _serverConfigs.Values.ToArray();
 
-            OnChanged?.Invoke(old, newList);
+            OnChanged?.Invoke((old, newList));
             return this;
         }
 
@@ -143,8 +141,17 @@ namespace RTC.ServerUtility
             return this.GetEnumerator();
         }
 
-        public Action OnRefreshed;
-        public WatchChanged OnChanged;
+        public SubscribeTools<WatcherServer<TKey, TServer>> OnRefreshed { get; } =
+            new();
+
+        public SubscribeTools<(TServer[] old, TServer[] newList)> OnChanged { get; }
+            = new();
+
+        public void Dispose()
+        {
+            OnRefreshed?.Dispose();
+            OnChanged?.Dispose();
+        }
     }
 }
 

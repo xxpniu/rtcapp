@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using Google.Protobuf;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 
@@ -143,11 +145,35 @@ namespace RTC.XNet
             return CreateClient<T>();
         }
 
-        public T CreateClient<T>() where T : ClientBase
+        private T CreateClient<T>() where T : ClientBase
         {
             return Activator.CreateInstance(typeof(T), this.CreateLogCallInvoker()) as T;
         }
-        
+
+        public class OneRequest<T> where T : ClientBase
+        {
+            private readonly string _endPoint;
+            public OneRequest(string endPoint)
+            {
+                _endPoint = endPoint;
+            }
+            
+            public  async Task<TRes> SendRequestAsync<TRes>( Func<T, Task<TRes>> requestInvoke) 
+                where TRes : IMessage
+            {
+                var log = new LogChannel(_endPoint, ChannelCredentials.Insecure);
+                var client = await log.CreateClientAsync<T>();
+                var res = await requestInvoke.Invoke(client);
+                await log.ShutdownAsync();
+                return res;
+            }
+        }
+
+        public static OneRequest<T> CreateOneRequest<T>(string endPoint)
+            where T : ClientBase
+        {
+            return new OneRequest<T>(endPoint);
+        }
     }
 
 }

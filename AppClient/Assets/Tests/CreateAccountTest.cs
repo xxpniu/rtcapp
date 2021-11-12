@@ -24,6 +24,7 @@ public class CreateAccountTest
     [TestCase("jy", "123456", Explicit = false)]
     public async Task CreateAccountTestWithEnumeratorPasses(string account, string pwd)
     {
+        /*
         var  config = JsonUtility.FromJson<Config>(Resources.Load<TextAsset>("config").text);
         var cfg = config.login.Split(':');
         var loginAddress = "localhost";//cfg[0];
@@ -39,9 +40,10 @@ public class CreateAccountTest
             UserName = account
         });
         //yield return UniTask.ToCoroutine(result);
-        Debug.Log(result);
+        Debug.Log(result);*/
         // Use the Assert class to test conditions.
         // Use yield to skip a frame.
         //yield return null;
+        await Task.CompletedTask;
     }
 }

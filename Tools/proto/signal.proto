@@ -18,25 +18,36 @@ message RouteMessage
 message C2S_Connect
 {
     RTC.ProtoGrpc.Data.TokenSession session = 1;
+    string roomId =2;
 }
 
+
+message SessionDescriptionData
+{
+    string sdp =1;
+    int32 sdpType =2;
+}
 
 message CreateOffer
 {
     string receiveConnectionId =1; 
-    string description = 2;
+    SessionDescriptionData description = 2;
 }
 
 
 message AnswerOffer
 {
     string receiveConnectionId =1; 
-    string description =2;
+    SessionDescriptionData description =2;
 }
+
+
 
 message IceCandidate
 {
-    string iceCandidate = 1;
+    string candidate = 1;
+    int32 sdpMLineIndex =2;
+    string sdpMid = 3;
 }
 
 message PeerOnline
@@ -53,6 +64,7 @@ message PeerOffLine
 message C2S_QueryPlayerList
 {
     string connectionId = 1;
+    string roomId =2;
 }
 
 message S2C_QueryPlayerList

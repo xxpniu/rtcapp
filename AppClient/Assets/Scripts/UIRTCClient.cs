@@ -1,12 +1,14 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using Unity.Mathematics;
+using Grpc.Core;
 using Unity.WebRTC;
 using UnityEngine;
 using UnityEngine.UI;
 using XRTC;
+using Debug = UnityEngine.Debug;
+using Debugger=  RTC.XNet.Debugger;
 
 public class UIRTCClient : MonoBehaviour
 {
@@ -20,7 +22,7 @@ public class UIRTCClient : MonoBehaviour
 
     private GameObject CreateView(string pName , Texture texture,string account)
     {
-        var go = GameObject.Instantiate(itemTemp, Vector3.zero, quaternion.identity ,  root);
+        var go = Instantiate(itemTemp, Vector3.zero, Quaternion.identity ,  root);
         go.SetActive(true);
         var text = go.transform.Find("Text").GetComponent<Text>();
         
@@ -33,11 +35,11 @@ public class UIRTCClient : MonoBehaviour
             Debug.Log(account);
             if (string.IsNullOrEmpty(account))
             {
-                SetBgRawImage(_clientConnection.WebCam);
+                SetBgRawImage(clientConnection.WebCam);
                 return;
             }
 
-            if (_clientConnection.Clients.TryGetValue(account, out var client))
+            if (clientConnection.Clients.TryGetValue(account, out var client))
             {
                 SetBgRawImage( client.PeerTexture);
             }
@@ -45,7 +47,7 @@ public class UIRTCClient : MonoBehaviour
         return go;
     }
 
-    private RTCClientConnection _clientConnection;
+    private RTCClientConnection clientConnection;
 
 
     private void Awake()
@@ -56,7 +58,7 @@ public class UIRTCClient : MonoBehaviour
     private void OnDestroy()
     {
         WebRTC.Dispose();
-        _clientConnection?.Dispose();
+        clientConnection?.Dispose();
         
     }
 
@@ -68,27 +70,33 @@ public class UIRTCClient : MonoBehaviour
         }
         players.Clear();
 
-        CreateView("自己", _clientConnection.WebCam, "");
+        CreateView("自己", clientConnection.WebCam, "");
         
-        foreach (var kv in _clientConnection.Clients)
+        foreach (var kv in clientConnection.Clients)
         {
            var go =  CreateView(kv.Value.Name, kv.Value.PeerTexture, kv.Key);
            if (!kv.Value.Clip) continue;
            var clipSource = go.AddComponent<AudioSource>();
+           clipSource.volume = 1;
+           clipSource.maxDistance = 999;
+           clipSource.minDistance = 0.01f;
            clipSource.clip = kv.Value.Clip;
            clipSource.loop = true;
            clipSource.Play();
         }
+
+        await Task.CompletedTask;
     }
 
     public async void MuteMicrophone()
     {
-         
+        await Task.CompletedTask; 
     }
 
     public async void ChangeCamera()
     {
-        _clientConnection.ChangeCamera();
+        clientConnection.ChangeCamera();
+        await Task.CompletedTask;
     }
 
     private void SetBgRawImage(Texture texture)
@@ -105,31 +113,41 @@ public class UIRTCClient : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    private  async  void Start()
+    private async void Start()
     {
         itemTemp.SetActive(false);
         StartCoroutine(WebRTC.Update());
         players = new List<GameObject>();
-        _clientConnection = new RTCClientConnection(Launch.S.tokenSession,
+        clientConnection = new RTCClientConnection(Launch.S.tokenSession,
+            Launch.S.roomId,
             Launch.S.config.signal,
-            Launch.S.config.stun, new Vector2Int(Launch.S.config.pWidth, Launch.S.config.pHeight));
-        
-        _clientConnection.OnPeerChanged.SubscribeForever(des =>
-        {
-            this.RefreshView();
-            
-        });
+            Launch.S.config.iceServers,
+            new Vector2Int(Launch.S.config.pWidth, Launch.S.config.pHeight));
+
+        clientConnection.OnPeerChanged.SubscribeForever(des => { this.RefreshView(); });
 
         async void ProcessOffline(string d)
         {
-            await Launch.S.GoToLoginAsync();
+            Debugger.Log("Offline retry");
+            await Launch.S.GoToLoginAsync(true);
         }
 
-        _clientConnection.OnOffline.SubscribeOnce(ProcessOffline);
+        clientConnection.OnOffline.SubscribeOnce(ProcessOffline);
         
-        await _clientConnection.ConnectAsync( Launch.S.useFrontCamera,this.GetCancellationTokenOnDestroy());
-        SetBgRawImage(_clientConnection.WebCam);
-        
+        try
+        {
+            await clientConnection.ConnectAsync(Launch.S.useFrontCamera, this.GetCancellationTokenOnDestroy());
+
+            SetBgRawImage(clientConnection.WebCam);
+
+            RefreshView();
+        }
+        catch(Exception ex)
+        {
+            Debug.LogException(ex);
+            await Launch.S.GoToLoginAsync();
+            
+        }
     }
 
     // Update is called once per frame

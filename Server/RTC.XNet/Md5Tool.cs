@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RTC.XNet
 {
-    //<summary>
+    ///<summary>
     /// Md5 tool
     /// </summary>
     public static class Md5Tool
